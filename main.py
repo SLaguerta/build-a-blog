@@ -69,17 +69,21 @@ class NewPost(Handler):
             error = "We need both a title and a blog entry!"
             self.render_newpost(title, blog, error)
 
-class ViewPostHandler(webapp2.RequestHandler):
+class ViewPostHandler(Handler):
     def get(self, id):
         id=int(id)
-        k = Blog.get_by_id(id)
+        blog = Blog.get_by_id(id)
 
-        self.response.write(k.title)
-        self.response.write(k.blog)
+        if not blog:
+            self.render("permalink.html", blog=blog, error="Blog doesn't exist. Please find another.")
+
+        else:
+            self.render("permalink.html", blog=blog)
+        # self.response.write(k.title)
+        # self.response.write(k.blog)
 
 
-        # if id = "":
-        #     error="Blog doesn't exist. Please find another."
+
 
 
 app = webapp2.WSGIApplication([
