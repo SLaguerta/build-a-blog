@@ -69,7 +69,21 @@ class NewPost(Handler):
             error = "We need both a title and a blog entry!"
             self.render_newpost(title, blog, error)
 
+class ViewPostHandler(webapp2.RequestHandler):
+    def get(self, id):
+        id=int(id)
+        k = Blog.get_by_id(id)
+
+        self.response.write(k.title)
+        self.response.write(k.blog)
+
+
+        # if id = "":
+        #     error="Blog doesn't exist. Please find another."
+
+
 app = webapp2.WSGIApplication([
     ('/blog', MainPage),
-    ('/newpost', NewPost)
+    ('/newpost', NewPost),
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
 ], debug=True)
