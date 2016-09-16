@@ -67,7 +67,10 @@
         <hr>
         {% for blog in blogs %}
         <div class = "blog">
-            <div class = "blog-title">{{blog.title}}</div>
+        {% set id = blog.key().id() %}
+        {% set link = "/blog/" ~ id %}
+        <a href={{link}}><div class = "blog-title">{{blog.title}}</div></a>
+
             <pre class = "blog-body">{{blog.blog}}</pre>
         </div>
         {% endfor %}

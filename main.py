@@ -40,9 +40,7 @@ class Blog(db.Model):
 
 class MainPage(Handler):
     def render_front(self, title="", blog="", error=""):
-        blogs = db.GqlQuery("SELECT * FROM Blog "
-                            "ORDER BY created DESC "
-                            "LIMIT 5 ")
+        blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC LIMIT 5 ")
 
         self.render("base.html", title=title, blog=blog, error=error, blogs=blogs)
 
@@ -63,8 +61,7 @@ class NewPost(Handler):
         if title and blog:
             b = Blog (title = title, blog = blog)
             b.put()
-
-            self.redirect("/blog")
+            self.redirect("/blog/%s" % str(b.key().id()))
         else:
             error = "We need both a title and a blog entry!"
             self.render_newpost(title, blog, error)
